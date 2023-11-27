@@ -177,12 +177,29 @@ function drawGhostTetromino() {
     }
   }
 }
+function restartGame() {
+  tetris.isGameOver = false;
+  tetris.init();
+
+  cells.forEach(cell => cell.removeAttribute('class'));
+
+  initKeydown();
+  initTouch();
+
+  startLoop();
+}
 
 function gameOver() {
   stopLoop();
   document.removeEventListener('keydown', onKeydown);
   hammer.off('panstart panleft panright pandown swipedown tap');
   gameOverAnimation();
+  setTimeout(() => {
+    const restart = confirm("Гра завершилась! Бажаєте почати знову?");
+    if (restart) {
+      restartGame();
+    }
+  }, 3000);
 }
 
 function gameOverAnimation() {
